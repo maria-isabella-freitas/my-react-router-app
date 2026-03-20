@@ -24,9 +24,9 @@ export default function Home({
   loaderData,
 }: Route.ComponentProps) {
   console.log("Home loader data:", loaderData);
+
+
   return (
-    <div>
-      test
-    </div>
+    <div > {loaderData.map(country => <div key={country.strArea}> {country.strArea} </div>)}</div>
   );
 }
