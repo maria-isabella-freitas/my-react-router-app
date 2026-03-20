@@ -4,73 +4,51 @@
  */
 
 // Base URL for the cat API
-const API_BASE_URL = "https://api.thecatapi.com/v1";
+const API_BASE_URL = "https://www.themealdb.com/api/json/v1/1/list.php?a=list";
 
 /**
- * Fetch random cat images
+ * Fetch dishes by countries 
  * @param {Object} options - Query parameters
  * @param {number} options.limit - Number of images to fetch
  * @param {string} options.breed_ids - Breed ID to filter by
  * @param {boolean} options.has_breeds - Only return images with breed info
  * @returns {Promise<Array>} - Array of cat image objects
  */
-export const fetchRandomCats = async (options = { limit: 9 }) => {
+
+
+/**
+ * Fetch all dishes
+ * @returns {Promise<Array>} - Array of dish objects
+ */
+export const fetchDishes = async () => {
     try {
-        const queryParams = new URLSearchParams({
-            limit: options.limit,
-            breed_ids: options.breed_ids || "",
-            has_breeds: options.has_breeds || 0,
-            mime_types: options.mime_types || "jpg,png",
-        }).toString();
+        const response = await fetch(`${API_BASE_URL}/dishes`, {
+            headers: { "x-api-key": import.meta.env.VITE_API_KEY },
+        });
 
-        const response = await fetch(
-            `${API_BASE_URL}/images/search?${queryParams}`,
-            {
-                headers: { "x-api-key": import.meta.env.VITE_API_KEY },
-            }
-        );
-
-        if (!response.ok) throw new Error("Failed to fetch cats");
+        if (!response.ok) throw new Error("Failed to fetch dishes");
         return await response.json();
     } catch (error) {
-        console.error("Error fetching random cats:", error);
+        console.error("Error fetching dishes:", error);
         throw error;
     }
 };
 
 /**
- * Fetch all cat breeds
- * @returns {Promise<Array>} - Array of cat breed objects
+ * Fetch details for a specific dish
+ * @param {string} dishId - ID of the dish to fetch
+ * @returns {Promise<Object>} - Dish details object
  */
-export const fetchBreeds = async () => {
+export const fetchDishDetails = async (dishId) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/breeds`, {
+        const response = await fetch(`${API_BASE_URL}/dishes/${dishId}`, {
             headers: { "x-api-key": import.meta.env.VITE_API_KEY },
         });
 
-        if (!response.ok) throw new Error("Failed to fetch breeds");
+        if (!response.ok) throw new Error("Dish not found");
         return await response.json();
     } catch (error) {
-        console.error("Error fetching breeds:", error);
-        throw error;
-    }
-};
-
-/**
- * Fetch details for a specific breed
- * @param {string} breedId - ID of the breed to fetch
- * @returns {Promise<Object>} - Breed details object
- */
-export const fetchBreedDetails = async (breedId) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/breeds/${breedId}`, {
-            headers: { "x-api-key": import.meta.env.VITE_API_KEY },
-        });
-
-        if (!response.ok) throw new Error("Breed not found");
-        return await response.json();
-    } catch (error) {
-        console.error("Error fetching breed details:", error);
+        console.error("Error fetching dish details:", error);
         throw error;
     }
 };
