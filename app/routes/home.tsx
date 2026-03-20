@@ -27,6 +27,12 @@ export default function Home({
 
 
   return (
-    <div > {loaderData.map(country => <div key={country.strArea}> {country.strArea} </div>)}</div>
+    <div>
+      {loaderData.map(country => (
+        <Link key={country.strArea} to={`/countries/${country.strArea}`}>
+          <div>{country.strArea}</div>
+        </Link>
+      ))}
+    </div>
   );
 }
