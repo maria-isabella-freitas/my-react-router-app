@@ -22,41 +22,22 @@ const Dishes = ({ loaderData }) => {
 
   return (
     <div>
-      <h1>Cat Breed Directory</h1>
-
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search breeds by name, origin, or temperament..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-      </div>
-
-      <div>
-        {filteredBreeds.length === 0 ? (
-          <p className="no-results">No breeds found matching your search.</p>
-        ) : (
-          filteredBreeds.map((breed) => (
-            <Link
-              to={`/breeds/${breed.id}`}
-              key={breed.id}
-              className="breed-card"
-            >
-              <h2>{breed.name}</h2>
-              <p>
-                <strong>Origin:</strong> {breed.origin}
-              </p>
-              <p>
-                <strong>Temperament:</strong> {breed.temperament}
-              </p>
-            </Link>
-          ))
-        )}
-      </div>
+      <h1>Dishes</h1>
+      <input
+        type="text"
+        placeholder="Search dishes..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <ul>
+        {filteredDishes.map((dish) => (
+          <li key={dish.id}>
+            <Link to={`/dishes/${dish.id}`}>{dish.name}</Link>
+          </li>
+        ))}
+      </ul> 
     </div>
   );
 };
 
-export default CatBreeds;
+export default Dishes;
